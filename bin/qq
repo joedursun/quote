@@ -1,0 +1,42 @@
+#!/usr/bin/env ruby
+
+require 'open-uri'
+require 'nokogiri'
+require 'formatador'
+require 'pmap'
+
+symbols = ARGV.dup
+exit if symbols.empty?
+
+# selectors
+last_sale_selector    = '#qwidget_lastsale'
+points_diff_selector  = '#qwidget_netchange'
+percent_diff_selector = '#qwidget_percent'
+quotes                = []
+
+def arrow_selector
+  '#qwidget-arrow-image'
+end
+
+def up_or_down?(doc)
+  doc.css(arrow_selector).attribute('src').value.match('GreenArrowUp') ? '' : '-'
+end
+
+symbols.peach do |symbol|
+  doc = Nokogiri::HTML(open "http://www.nasdaq.com/symbol/#{symbol}/real-time")
+  price_node = doc.css last_sale_selector
+  next if price_node.nil?
+
+  sign           = up_or_down?(doc)
+  percent_change = doc.css(percent_diff_selector).text
+  point_change   = doc.css(points_diff_selector).text
+  current_price  = price_node.text
+  quotes.push({
+    symbol: symbol,
+    price: current_price,
+    :'percent change' => "#{sign}#{percent_change}",
+    :'points change' => "#{sign}#{point_change}"
+  })
+end
+
+Formatador.display_table quotes, [:symbol, :price, :'percent change', :'points change']
