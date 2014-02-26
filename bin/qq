@@ -4,8 +4,17 @@ require 'open-uri'
 require 'nokogiri'
 require 'formatador'
 require 'pmap'
+require_relative '../lib/opt_processor'
+require_relative '../lib/portfolio'
 
-symbols = ARGV.dup
+options   = OptProcessor.parse!
+symbols   = ARGV.dup
+
+unless options[:no_portfolio]
+  portfolio = Portfolio.new(options)
+  symbols = symbols.concat(portfolio.stock_symbols).uniq
+end
+
 exit if symbols.empty?
 
 # selectors
