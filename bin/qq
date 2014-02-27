@@ -6,26 +6,21 @@ require 'formatador'
 require 'pmap'
 require_relative '../lib/opt_processor'
 require_relative '../lib/portfolio'
+require_relative '../lib/selectors'
+
+include Selectors
 
 options   = OptProcessor.parse!
 symbols   = ARGV.dup
 
 unless options[:no_portfolio]
   portfolio = Portfolio.new(options)
-  symbols = symbols.concat(portfolio.stock_symbols).uniq
+  symbols   = symbols.concat(portfolio.stock_symbols).uniq
 end
 
 exit if symbols.empty?
 
-# selectors
-last_sale_selector    = '#qwidget_lastsale'
-points_diff_selector  = '#qwidget_netchange'
-percent_diff_selector = '#qwidget_percent'
-quotes                = []
-
-def arrow_selector
-  '#qwidget-arrow-image'
-end
+quotes = []
 
 def up_or_down?(doc)
   doc.css(arrow_selector).attribute('src').value.match('GreenArrowUp') ? '' : '-'
