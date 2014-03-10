@@ -1,14 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'open-uri'
-require 'nokogiri'
 require 'formatador'
 require 'pmap'
 require_relative '../lib/opt_processor'
 require_relative '../lib/portfolio'
-require_relative '../lib/selectors'
-
-include Selectors
+require_relative '../lib/stock'
 
 options   = OptProcessor.parse!
 symbols   = ARGV.dup
@@ -22,25 +18,10 @@ exit if symbols.empty?
 
 quotes = []
 
-def up_or_down?(doc)
-  doc.css(arrow_selector).attribute('src').value.match('GreenArrowUp') ? '' : '-'
-end
-
 symbols.peach do |symbol|
-  doc = Nokogiri::HTML(open "http://www.nasdaq.com/symbol/#{symbol}/real-time")
-  price_node = doc.css last_sale_selector
-  next if price_node.nil?
+  stock = Stock.new symbol
 
-  sign           = up_or_down?(doc)
-  percent_change = doc.css(percent_diff_selector).text
-  point_change   = doc.css(points_diff_selector).text
-  current_price  = price_node.text
-  quotes.push({
-    symbol: symbol,
-    price: current_price,
-    :'percent change' => "#{sign}#{percent_change}",
-    :'points change' => "#{sign}#{point_change}"
-  })
+  quotes.push stock.to_h unless stock.price.empty?
 end
 
-Formatador.display_table quotes, [:symbol, :price, :'percent change', :'points change']
+Formatador.display_table(quotes, quotes.first.keys) unless quotes.empty?
