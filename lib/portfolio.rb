@@ -5,11 +5,7 @@ class Portfolio
 
   def initialize(options)
     path = options[:portfolio_path].nil? ? default_portfolio_path : options[:portfolio_path]
-
-    @holdings = YAML::load(File.open path)
-  rescue Errno::ENOENT => e
-    puts 'Portfolio file not found.'
-    @holdings = {}
+    set_holdings(path)
   end
 
   def default_portfolio_path
@@ -19,5 +15,16 @@ class Portfolio
 
   def stock_symbols
     holdings.keys
+  end
+
+  private
+
+  def set_holdings(path)
+    if File.exists? path
+      @holdings = YAML::load(File.open path)
+    else
+      puts 'Portfolio file not found.'
+      @holdings = {}
+    end
   end
 end
