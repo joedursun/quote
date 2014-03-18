@@ -1,4 +1,4 @@
-Quote is a command line tool for retrieving stock quotes from [Nasdaq.com](http://www.nasdaq.com). There are many gems that have similar functionality to Quote (not a gem...yet?), but most use the Yahoo api which is delayed by at least 15 minutes. Nasdaq quotes are closer to real time.
+Quote is a command line tool for retrieving stock quotes from [Nasdaq.com's](http://www.nasdaq.com) real-time quote service. There are many gems that have similar functionality to Quote (not a gem...yet?), but most use the Yahoo api which is delayed by at least 15 minutes.
 
 Usage
 ----
@@ -9,14 +9,16 @@ First, add bin/qq to your path. You can look up one or more quotes like so:
 Output is in the form of a table:
 
 ```
-  +--------+-----------+----------------+---------------+
-  | symbol | price     | percent change | points change |
-  +--------+-----------+----------------+---------------+
-  | goog   | $1211.94  | -0.05%         | -0.57         |
-  +--------+-----------+----------------+---------------+
-  | aapl   | $527.9481 | 0.08%          | 0.3981        |
-  +--------+-----------+----------------+---------------+
+  +--------+-----------+----------------------+---------------------+
+  | symbol | price     | today percent change | today points change |
+  +--------+-----------+----------------------+---------------------+
+  | goog   | $1211.94  | -0.05%               | -0.57               |
+  +--------+-----------+----------------------+---------------------+
+  | aapl   | $527.9481 | 0.08%                | 0.3981              |
+  +--------+-----------+----------------------+---------------------+
 ```
+
+Positive daily changes are displayed in green while negative changes are displayed in red.
 
 Options
 -----
@@ -29,6 +31,6 @@ To get a list of available options pass the '-h' flag:
       -n, --no-portfolio               Do not use portfolio.yml
 ```
 
-By default, qq will look for config/portfolio.yml. Your portfolio file should be a list of stocks in the format: 'symbol: purchase_value'
+By default, qq will look for config/portfolio.yml. An example of a portfolio.yml is provided.
 
-At the moment, the purchase value is not being used; however, the purchase values will be used for calculating total gain in a portfolio later.
+There are plans for using the purchase price and quantity to provide an idea of how your portfolio has performed.
