@@ -37,7 +37,6 @@ class Stock
   def get_value(selector)
     data.css(selector).text
   rescue NoMethodError
-    nil
   end
 
   def sign
