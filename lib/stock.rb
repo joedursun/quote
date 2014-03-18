@@ -15,8 +15,8 @@ class Stock
     {
       symbol:                 symbol,
       price:                  price,
-      :'today percent change' => "#{sign}#{today_percent_change}",
-      :'today points change'  => "#{sign}#{today_points_change}"
+      :'today percent change' => "#{sign}#{today_percent_change}[/]",
+      :'today points change'  => "#{sign}#{today_points_change}[/]"
     }
   end
 
@@ -41,7 +41,7 @@ class Stock
   end
 
   def sign
-    in_the_green? ? '' : '-'
+    in_the_green? ? '[green]' : '[red]-'
   end
 
   def data
