@@ -1,0 +1,6 @@
+tsla:
+  price: 195.00
+  num_shares: 145
+goog:
+  price: 1211.94
+  num_shares: 20
