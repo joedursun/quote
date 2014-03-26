@@ -20,8 +20,10 @@ quotes = []
 
 symbols.peach do |symbol|
   stock = Stock.new symbol
-
   quotes.push stock.to_h unless stock.price.empty?
 end
 
-Formatador.display_table(quotes, quotes.first.keys) unless quotes.empty?
+unless quotes.empty?
+  quotes.sort_by! { |q| q[:symbol] }
+  Formatador.display_table(quotes, quotes.first.keys)
+end
