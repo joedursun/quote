@@ -11,7 +11,7 @@ symbols   = ARGV.dup
 
 unless options[:no_portfolio]
   portfolio = Portfolio.new(options)
-  symbols.concat(portfolio.stock_symbols).uniq
+  symbols.concat(portfolio.stock_symbols).uniq!
 end
 
 exit if symbols.empty?
