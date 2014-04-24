@@ -1,14 +1,17 @@
 require 'open-uri'
 require 'nokogiri'
+require 'celluloid/autostart'
 require_relative 'selectors'
 
 class Stock
   include Selectors
+  include Celluloid
 
   attr_reader :symbol
 
-  def initialize(symbol)
+  def get_info(symbol)
     @symbol = symbol
+    price.empty? ? nil : to_h
   end
 
   def to_h
