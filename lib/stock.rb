@@ -7,6 +7,8 @@ class Stock
   include Selectors
   include Celluloid
 
+  Celluloid.logger = nil
+
   attr_reader :symbol
 
   def get_info(symbol)
