@@ -12,6 +12,6 @@ module Selectors
   end
 
   def arrow_selector
-    '#qwidget-arrow-image'
+    '#qwidget-arrow'
   end
 end
