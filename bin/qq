@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'formatador'
-require 'pmap'
 require_relative '../lib/opt_processor'
 require_relative '../lib/portfolio'
 require_relative '../lib/stock'
