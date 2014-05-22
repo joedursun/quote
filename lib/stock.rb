@@ -56,7 +56,7 @@ class Stock
     @arrow ||= begin
       arrow = data.css(arrow_selector)
       return if arrow.empty?
-      arrow.children.first.attribute('class').value.match('arrow-green')
+      arrow.children.first.attribute('class').value =~ /arrow-green/
     end
   end
 

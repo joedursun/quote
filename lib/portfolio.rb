@@ -4,7 +4,7 @@ class Portfolio
   attr_accessor :holdings
 
   def initialize(options)
-    path = options[:portfolio_path].nil? ? default_portfolio_path : options[:portfolio_path]
+    path = options[:portfolio_path] || default_portfolio_path
     set_holdings(path)
   end
 
